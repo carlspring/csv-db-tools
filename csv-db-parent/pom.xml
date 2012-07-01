@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.carlspring.tools.csv</groupId>
+    <artifactId>csv-db-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>CSV DB Parent</name>
+
+    <url>https://github.com/carlspring/csv-db-tools</url>
+
+    <licenses>
+        <license>
+            <name>Apache 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Martin Todorov</name>
+            <email>carlspring@gmail.com</email>
+        </developer>
+    </developers>
+
+    <properties>
+        <version.slf4j>1.6.4</version.slf4j>
+        <version.derby>10.8.2.2</version.derby>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <derby.url>jdbc:derby://localhost:1527/db;user=derby;password=derby;create=true</derby.url>
+    </properties>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${basedir}</directory>
+                <includes>
+                    <include>README</include>
+                    <include>TODO</include>
+                    <include>USAGE</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.3.2</version>
+
+                    <configuration>
+                        <debug>true</debug>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.1.2</version>
+
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.2.2</version>
+
+                    <configuration>
+                        <arguments>-Pgpg</arguments>
+                        <releaseProfiles>gpg</releaseProfiles>
+                        <mavenExecutorId>forked-path</mavenExecutorId>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.carlspring.maven</groupId>
+                    <artifactId>derby-maven-plugin</artifactId>
+                    <version>1.5</version>
+
+                    <configuration>
+                        <failIfAlreadyRunning>false</failIfAlreadyRunning>
+                    </configuration>
+
+                    <executions>
+                        <execution>
+                            <id>start-derby</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>start</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>stop-derby</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>stop</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>sql-maven-plugin</artifactId>
+                    <version>1.5</version>
+
+                    <!-- common configuration shared by all executions -->
+                    <configuration>
+                        <driver>org.apache.derby.jdbc.ClientDriver</driver>
+                        <url>${derby.url}</url>
+                        <onError>continue</onError>
+                    </configuration>
+
+                    <executions>
+                        <execution>
+                            <id>db-populate</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>execute</goal>
+                            </goals>
+                            <configuration>
+                                <onError>abort</onError>
+                                <autocommit>true</autocommit>
+                                <srcFiles>
+                                    <srcFile>${basedir}/src/test/resources/sql/derby/01-db.sql</srcFile>
+                                </srcFiles>
+                            </configuration>
+                        </execution>
+                    </executions>
+
+                    <dependencies>
+                        <!-- specify the dependent jdbc driver here -->
+                        <dependency>
+                            <groupId>org.apache.derby</groupId>
+                            <artifactId>derby</artifactId>
+                            <version>${version.derby}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.derby</groupId>
+                            <artifactId>derbyclient</artifactId>
+                            <version>${version.derby}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.carlspring.tools.csv</groupId>
+                <artifactId>csv-file</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.carlspring.tools.csv</groupId>
+                <artifactId>csv-rdbms</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.carlspring.tools.csv</groupId>
+                <artifactId>csv-db-commons</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.carlspring</groupId>
+                <artifactId>properties-injector</artifactId>
+                <version>1.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derby</artifactId>
+                <version>${version.derby}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derbyclient</artifactId>
+                <version>${version.derby}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derbynet</artifactId>
+                <version>${version.derby}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Use SLF4J for logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${version.slf4j}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${version.slf4j}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.10</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>xpp3</groupId>
+                <artifactId>xpp3</artifactId>
+                <version>1.1.4c</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>1.3.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <scm>
+        <connection>scm:git:git@github.com:carlspring/csv-db-tools.git</connection>
+        <url>scm:git:git@github.com:carlspring/csv-db-tools.git</url>
+        <developerConnection>scm:git:git@github.com:carlspring/csv-db-tools.git</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>sonatype-staging</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <profiles>
+        <profile>
+            <id>gpg</id>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.4</version>
+
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

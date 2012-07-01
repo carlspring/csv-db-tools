@@ -1,0 +1,49 @@
+<configuration>
+
+    <jdbcSettings>
+        <url>jdbc:derby://localhost:1527/db;user=derby;password=derby</url>
+        <driver>org.apache.derby.jdbc.ClientDriver</driver>
+        <username>derby</username>
+        <password>derby</password>
+    </jdbcSettings>
+
+    <deleteAllDataFromTableBeforeInserting>true</deleteAllDataFromTableBeforeInserting>
+
+    <mapping>
+        <tableName>users</tableName>
+        <sequenceLookupSQL>(NEXT VALUE FOR user_seqid)</sequenceLookupSQL>
+
+        <fields>
+            <field>
+                <csvColumnName>id</csvColumnName>
+                <columnName>userid</columnName>
+                <type>int</type>
+                <useValue>SEQUENCE</useValue>
+                <!-- Include this column explicitly, even if it's not mentioned in the CSV file -->
+                <includeExplicitly>SEQUENCE</includeExplicitly>
+            </field>
+            <field>
+                <csvColumnName>username</csvColumnName>
+                <columnName>username</columnName>
+                <type>java.lang.String</type>
+            </field>
+            <field>
+                <csvColumnName>password</csvColumnName>
+                <columnName>password</columnName>
+                <type>java.lang.String</type>
+            </field>
+            <field>
+                <csvColumnName>firstname</csvColumnName>
+                <columnName>first_name</columnName>
+                <type>java.lang.String</type>
+            </field>
+            <field>
+                <csvColumnName>lastname</csvColumnName>
+                <columnName>last_name</columnName>
+                <type>java.lang.String</type>
+            </field>
+        </fields>
+    </mapping>
+
+</configuration>
+

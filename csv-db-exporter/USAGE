@@ -1,0 +1,5 @@
+
+
+Example usage:
+    java -Dcsv.file=my.csv -Dmapping.xml=mapping.xml [-Ddelimiter=,] -jar csv-db-exporter-${version}-standalone.jar
+
