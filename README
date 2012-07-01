@@ -1,0 +1,9 @@
+
+
+These tools are based on the csvfile library from Sourceforge. The version of csvfile is a fork with various fixes.
+CSVFile is used by written permission from Fabrizio Fazzino.
+
+The code for csv-file is based on http://www.ietf.org/rfc/rfc4180.txt.
+
+The code is licensed under Apache 2.0.
+
