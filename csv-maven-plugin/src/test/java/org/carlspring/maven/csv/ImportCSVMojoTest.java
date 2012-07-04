@@ -26,30 +26,21 @@ public class ImportCSVMojoTest
         extends AbstractCSVMojoTest
 {
 
-    StartDerbyMojo startMojo;
-    StopDerbyMojo stopMojo;
+    ImportCSVMojo importCSVMojo;
 
 
-    protected void setUp()
+    public void setUp()
             throws Exception
     {
         super.setUp();
 
-        startMojo = (StartDerbyMojo) lookupMojo("start", POM_PLUGIN);
-        configureMojo(startMojo);
-
-        stopMojo = (StopDerbyMojo) lookupMojo("stop", POM_PLUGIN);
-        configureMojo(stopMojo);
+        importCSVMojo = (ImportCSVMojo) lookupMojo("import", POM_PLUGIN);
     }
 
     public void testMojo()
             throws MojoExecutionException, MojoFailureException, InterruptedException
     {
-        startMojo.execute();
-
-        Thread.sleep(5000);
-
-        stopMojo.execute();
+        importCSVMojo.execute();
     }
 
 }

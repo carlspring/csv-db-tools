@@ -32,44 +32,14 @@ import java.util.Set;
  * @author Martin Todorov
  * @email carlspring@gmail.com
  */
-public class CSVDataExporterTest
+public class CSVDataExporterTest extends AbstractPrepopulatingTest
 {
 
-    private static final String MAPPING_XML = "target/test-classes/mapping.xml";
-
-    private static final String CSV_FILE = "target/test-classes/users.csv";
-
-    private static final int NUMBER_OF_RECORDS = 10;
-
-
-    @Before
-    public void setUp()
-            throws IOException, SQLException
-    {
-        Set<String> columnNames = new LinkedHashSet<String>();
-        columnNames.add("username");
-        columnNames.add("password");
-        columnNames.add("firstname");
-        columnNames.add("lastname");
-        columnNames.add("comment");
-
-        CSVDataGenerator dataGenerator = new CSVDataGenerator(new File(CSV_FILE), NUMBER_OF_RECORDS);
-        dataGenerator.setColumnNames(columnNames);
-        dataGenerator.setColumnValuePrefixes(columnNames);
-        dataGenerator.generate();
-
-        System.setProperty("mapping.xml", MAPPING_XML);
-
-        CSVDataImporter importer = new CSVDataImporter();
-
-        importer.setCsvFile(CSV_FILE);
-        importer.importData();
-    }
 
     @Test
     public void testExport() throws Exception
     {
-        System.setProperty("mapping.xml", "target/test-classes/mapping.xml");
+        System.setProperty("configuration.xml", "target/test-classes/configuration.xml");
 
         CSVDataExporter exporter = new CSVDataExporter();
         exporter.setCsvFile("target/test-classes/users-exported.csv");

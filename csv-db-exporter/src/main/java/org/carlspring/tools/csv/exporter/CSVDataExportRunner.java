@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class CSVDataExportRunner
 {
 
-    CSVDataExporter exporter;
+    CSVDataExporter exporter = new CSVDataExporter();
 
 
     public CSVDataExportRunner()
@@ -21,11 +21,14 @@ public class CSVDataExportRunner
     {
         final CSVDataExportRunner runner = new CSVDataExportRunner();
 
-        if (System.getProperty("csv.file") == null || System.getProperty("mapping.xml") == null)
+        if (System.getProperty("csv.file") == null || System.getProperty("configuration.xml") == null)
         {
             System.out.println("Usage:");
-            System.out.println("    java -jar csv-exporter.jar -Dcsv.file=my.csv -Dmapping.xml=mapping.xml");
+            System.out.println("    java -Dcsv.file=my.csv -Dconfiguration.xml=configuration.xml [-Ddelimiter=,] -jar csv-db-exporter-${version}-standalone.jar");
         }
+
+        if (System.getProperty("delimiter") != null)
+            runner.getExporter().setDelimiter(System.getProperty("delimiter").charAt(0));
 
         runner.getExporter().exportData();
     }

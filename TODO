@@ -1,5 +1,4 @@
 
-- Create csv exporter.
-- Add USAGE example.
-- Create a Maven plugin.
+- Add escaping when exporting data.
+- Add a test case to the csv-file module which tests that it is RFC-4180 complaint.
 - Add table generation support.

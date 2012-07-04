@@ -31,7 +31,7 @@ import java.util.Set;
 public class CSVLargeDataImporterIntegrationTest
 {
 
-    private static final String MAPPING_XML = "target/test-classes/mapping-large.xml";
+    private static final String MAPPING_XML = "target/test-classes/configuration-large.xml";
 
     private static final String CSV_FILE = "target/test-classes/csv-large.csv";
 
@@ -52,14 +52,15 @@ public class CSVLargeDataImporterIntegrationTest
         dataGenerator.setColumnValuePrefixes(columnNames);
         dataGenerator.generate();
 
-        System.setProperty("mapping.xml", MAPPING_XML);
+        System.setProperty("configuration.xml", MAPPING_XML);
 
         CSVDataImporter importer = new CSVDataImporter();
-
         importer.setCsvFile(CSV_FILE);
+        importer.setConfigurationXML("target/test-classes/configuration-large.xml");
+        importer.setDelimiter(',');
         importer.importData();
 
-        System.getProperties().remove("mapping.xml");
+        System.getProperties().remove("configuration.xml");
     }
 
 }

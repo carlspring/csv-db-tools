@@ -1,5 +1,5 @@
 
 
 Example usage:
-    java -Dcsv.file=my.csv -Dmapping.xml=mapping.xml [-Ddelimiter=,] -jar csv-db-importer-${version}-standalone.jar
+    java -Dcsv.file=my.csv -Dconfiguration.xml=configuration.xml [-Ddelimiter=,] -jar csv-db-importer-${version}-standalone.jar
 

@@ -63,7 +63,7 @@ public class CSVDataExporter
 
             csvFileWriter = new CSVFileWriter(file.getAbsolutePath(), getDelimiter());
 
-            CSVDao dao = new CSVDao();
+            CSVDao dao = new CSVDao(getConfigurationXML());
 
             Configuration configuration = dao.getConfiguration();
 
@@ -73,7 +73,7 @@ public class CSVDataExporter
 
             generateHeader(fields, fos);
 
-            int numberOfRows = dao.export(fields, fos, getDelimiter());
+            int numberOfRows = dao.export(fields, fos, getDelimiter(), configuration.getExportWhereClause());
 
             long endTime = System.currentTimeMillis();
 

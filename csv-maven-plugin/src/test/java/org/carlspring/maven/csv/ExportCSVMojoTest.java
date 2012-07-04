@@ -16,8 +16,15 @@ package org.carlspring.maven.csv;
  * limitations under the License.
  */
 
-import junit.framework.Assert;
-import org.apache.maven.plugin.MojoExecutionException;
+import org.carlspring.tools.csv.CSVDataGenerator;
+import org.carlspring.tools.csv.CSVFileReader;
+import org.carlspring.tools.csv.importer.CSVDataImporter;
+import org.junit.Before;
+
+import java.io.*;
+import java.sql.SQLException;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * @author mtodorov
@@ -26,32 +33,76 @@ public class ExportCSVMojoTest
         extends AbstractCSVMojoTest
 {
 
-    StopDerbyMojo stopMojo;
+    private static final int NUMBER_OF_RECORDS = 10;
+
+    final String CSV_EXPORT_FILE = TARGET_TEST_CLASSES + "/users-export.csv";
+
+    ExportCSVMojo exportCSVMojo;
 
 
-    protected void setUp()
+    @Before
+    public void setUp()
             throws Exception
     {
         super.setUp();
 
-        stopMojo = (StopDerbyMojo) lookupMojo("stop", POM_PLUGIN);
+        exportCSVMojo = (ExportCSVMojo) lookupMojo("export", POM_PLUGIN);
+        exportCSVMojo.setCsvFile(CSV_EXPORT_FILE);
+        exportCSVMojo.setConfigurationXML(CONFIGURATION_XML);
+        exportCSVMojo.setDelimiter(',');
 
-        configureMojo(stopMojo);
+        importTestData();
+    }
 
-        stopMojo.setFailIfNotRunning(true);
+    private void importTestData()
+            throws IOException, SQLException
+    {
+        Set<String> columnNames = new LinkedHashSet<String>();
+        columnNames.add("username");
+        columnNames.add("password");
+        columnNames.add("firstname");
+        columnNames.add("lastname");
+        columnNames.add("comment");
+
+        CSVDataGenerator dataGenerator = new CSVDataGenerator(new File(CSV_FILE), NUMBER_OF_RECORDS);
+        dataGenerator.setColumnNames(columnNames);
+        dataGenerator.setColumnValuePrefixes(columnNames);
+        dataGenerator.generate();
+
+        CSVDataImporter importer = new CSVDataImporter();
+        importer.setCsvFile(CSV_FILE);
+        importer.setConfigurationXML(CONFIGURATION_XML);
+        importer.importData();
     }
 
     public void testMojo()
             throws Exception
     {
+        exportCSVMojo.execute();
+
+        FileInputStream is = null;
+        BufferedReader br = null;
+        CSVFileReader csvFileReader = null;
+
         try
         {
-            stopMojo.execute();
-            Assert.fail("The failIfNotRunning attribute did not cause an exception as expected");
+            is = new FileInputStream(CSV_EXPORT_FILE);
+            br = new BufferedReader(new InputStreamReader(is));
+
+            csvFileReader = new CSVFileReader(CSV_EXPORT_FILE, br, exportCSVMojo.getDelimiter());
+            final int numberOfLines = csvFileReader.getNumberOfLines();
+
+            assertEquals("Failed to validate the exported data!", 10, numberOfLines);
+
+            System.out.println("Validated the export of  " + numberOfLines + " records from the database...");
         }
-        catch (MojoExecutionException e)
+        catch (FileNotFoundException fnfExc)
         {
-            // Cool beans
+            fnfExc.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 

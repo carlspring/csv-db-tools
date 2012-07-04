@@ -11,8 +11,7 @@ import java.sql.SQLException;
  * @goal    import
  * @author  mtodorov
  */
-public class ImportCSVMojo
-        extends AbstractCSVMojo
+public class ImportCSVMojo extends AbstractCSVMojo
 {
 
     @Override

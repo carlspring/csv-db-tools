@@ -39,6 +39,24 @@ public abstract class AbstractCSVMojo
      */
     public String basedir;
 
+    /**
+     * @parameter expression="${csv.file}"
+     * @required
+     */
+    public String csvFile;
+
+    /**
+     * @parameter expression="${configuration.xml}"
+     * @required
+     */
+    public String configurationXML;
+
+    /**
+     * @parameter expression="${delimiter}"
+     * @required
+     */
+    public char delimiter;
+
 
     public MavenProject getProject()
     {
@@ -58,6 +76,36 @@ public abstract class AbstractCSVMojo
     public void setBasedir(String basedir)
     {
         this.basedir = basedir;
+    }
+
+    public String getCsvFile()
+    {
+        return csvFile;
+    }
+
+    public void setCsvFile(String csvFile)
+    {
+        this.csvFile = csvFile;
+    }
+
+    public String getConfigurationXML()
+    {
+        return configurationXML;
+    }
+
+    public void setConfigurationXML(String configurationXML)
+    {
+        this.configurationXML = configurationXML;
+    }
+
+    public char getDelimiter()
+    {
+        return delimiter;
+    }
+
+    public void setDelimiter(char delimiter)
+    {
+        this.delimiter = delimiter;
     }
 
 }

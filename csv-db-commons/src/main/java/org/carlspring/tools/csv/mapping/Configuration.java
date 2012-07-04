@@ -33,6 +33,9 @@ public class Configuration
     @XStreamAsAttribute
     private boolean deleteAllDataFromTableBeforeInserting;
 
+    @XStreamAsAttribute
+    private String exportWhereClause;
+
 
     public Configuration()
     {
@@ -66,6 +69,16 @@ public class Configuration
     public void setDeleteAllDataFromTableBeforeInserting(boolean deleteAllDataFromTableBeforeInserting)
     {
         this.deleteAllDataFromTableBeforeInserting = deleteAllDataFromTableBeforeInserting;
+    }
+
+    public String getExportWhereClause()
+    {
+        return exportWhereClause;
+    }
+
+    public void setExportWhereClause(String exportWhereClause)
+    {
+        this.exportWhereClause = exportWhereClause;
     }
 
 }

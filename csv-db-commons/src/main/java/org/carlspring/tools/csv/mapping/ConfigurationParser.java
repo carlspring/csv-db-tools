@@ -17,6 +17,7 @@ package org.carlspring.tools.csv.mapping;
  */
 
 import com.thoughtworks.xstream.XStream;
+import org.carlspring.ioc.InjectionException;
 import org.carlspring.ioc.PropertyValue;
 import org.carlspring.ioc.PropertyValueInjector;
 
@@ -30,8 +31,8 @@ import java.util.List;
 public class ConfigurationParser
 {
 
-    @PropertyValue(key = "mapping.xml")
-    private String mappingXML;
+    @PropertyValue(key = "configuration.xml")
+    private String configurationXML;
 
 
     public ConfigurationParser()
@@ -40,7 +41,7 @@ public class ConfigurationParser
         {
             PropertyValueInjector.inject(this);
         }
-        catch (IOException e)
+        catch (InjectionException e)
         {
             e.printStackTrace();
         }
@@ -53,7 +54,7 @@ public class ConfigurationParser
 
         try
         {
-            fis = new FileInputStream(mappingXML);
+            fis = new FileInputStream(configurationXML);
 
             XStream xstream = new XStream();
 
@@ -75,14 +76,14 @@ public class ConfigurationParser
         }
     }
 
-    public String getMappingXML()
+    public String getConfigurationXML()
     {
-        return mappingXML;
+        return configurationXML;
     }
 
-    public void setMappingXML(String mappingXML)
+    public void setConfigurationXML(String configurationXML)
     {
-        this.mappingXML = mappingXML;
+        this.configurationXML = configurationXML;
     }
 
 }

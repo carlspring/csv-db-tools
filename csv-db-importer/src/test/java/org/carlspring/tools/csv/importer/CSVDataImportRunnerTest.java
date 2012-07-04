@@ -30,11 +30,19 @@ public class CSVDataImportRunnerTest
     @Test
     public void testImport() throws Exception
     {
-        CSVDataImporter importer = new CSVDataImporter();
-        importer.setCsvFile("target/test-classes/users.csv");
-        importer.setConfigurationXML("target/test-classes/configuration.xml");
-        importer.setDelimiter(',');
-        importer.importData();
+        String csvFile = "target/test-classes/users.csv";
+        String configurationXML = "target/test-classes/configuration.xml";
+        char delimiter = ',';
+
+        System.setProperty("csv.file", csvFile);
+        System.setProperty("configuration.xml", configurationXML);
+        System.setProperty("delimiter", String.valueOf(delimiter));
+
+        CSVDataImportRunner.main(new String[]{});
+
+        System.getProperties().remove("cvs.file");
+        System.getProperties().remove("configuration.xml");
+        System.getProperties().remove("delimiter");
     }
 
 }

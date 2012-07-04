@@ -3,23 +3,22 @@ package org.carlspring.maven.csv;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 
 /**
- * @author jstiefel
- * @since 6/11/12
+ * @author mtodorov
  */
 public abstract class AbstractCSVMojoTest
         extends AbstractMojoTestCase
 {
 
     protected static final String TARGET_TEST_CLASSES = "target/test-classes";
-    protected static final String POM_PLUGIN = TARGET_TEST_CLASSES + "/poms/pom-start.xml";
+    protected static final String POM_PLUGIN = TARGET_TEST_CLASSES + "/poms/pom.xml";
+    protected static final String CSV_FILE = TARGET_TEST_CLASSES + "/users.csv";
+    protected static final String CONFIGURATION_XML = TARGET_TEST_CLASSES + "/configuration.xml";
 
-    protected void configureMojo(AbstractDerbyMojo mojo)
+
+    @Override
+    public void setUp()
+            throws Exception
     {
-        mojo.setDerbyHome(System.getProperty("basedir") + "/target/derby");
-        mojo.setConnectionURL("jdbc:derby://localhost:1527/db;user=derby;password=derby");
-        mojo.setPort(1527);
-        mojo.setUsername("derby");
-        mojo.setPassword("derby");
+        super.setUp();
     }
-
 }

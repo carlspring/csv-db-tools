@@ -62,7 +62,7 @@ public class CSVDataImporter extends CSVData
 
             csvFileReader = new CSVFileReader(file.getAbsolutePath(), br, getDelimiter());
 
-            CSVDao dao = new CSVDao();
+            CSVDao dao = new CSVDao(getConfigurationXML());
 
             final Configuration configuration = dao.getConfiguration();
             List<String> fields = FieldUtils.renameFields(csvFileReader.readFields(),

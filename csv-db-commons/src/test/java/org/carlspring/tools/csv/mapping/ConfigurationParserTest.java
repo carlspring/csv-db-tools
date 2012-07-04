@@ -16,8 +16,6 @@ package org.carlspring.tools.csv.mapping;
  * limitations under the License.
  */
 
-import org.carlspring.tools.csv.mapping.Configuration;
-import org.carlspring.tools.csv.mapping.ConfigurationParser;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -36,7 +34,7 @@ public class ConfigurationParserTest
             throws IOException
     {
         ConfigurationParser parser = new ConfigurationParser();
-        parser.setMappingXML("target/test-classes/mapping.xml");
+        parser.setConfigurationXML("target/test-classes/configuration.xml");
 
         final Configuration configuration = parser.parse();
 

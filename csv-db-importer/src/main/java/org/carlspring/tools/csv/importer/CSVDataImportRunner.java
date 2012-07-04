@@ -21,10 +21,10 @@ public class CSVDataImportRunner
     {
         final CSVDataImportRunner runner = new CSVDataImportRunner();
 
-        if (System.getProperty("csv.file") == null || System.getProperty("mapping.xml") == null)
+        if (System.getProperty("csv.file") == null || System.getProperty("configuration.xml") == null)
         {
             System.out.println("Usage:");
-            System.out.println("    java -jar csv-importer*standalone*.jar -Dcsv.file=my.csv -Dmapping.xml=mapping.xml [-Ddelimiter=,]");
+            System.out.println("    java -Dcsv.file=my.csv -Dconfiguration.xml=configuration.xml [-Ddelimiter=,] -jar csv-db-importer-${version}-standalone.jar");
         }
 
         // runner.getImporter().setCsvFile(System.getProperty("csv.file"));

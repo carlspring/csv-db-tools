@@ -16,6 +16,7 @@ package org.carlspring.tools.csv.dao;
  * limitations under the License.
  */
 
+import org.carlspring.ioc.InjectionException;
 import org.carlspring.ioc.PropertyValueInjector;
 import org.carlspring.tools.csv.FieldUtils;
 import org.carlspring.tools.csv.mapping.Configuration;
@@ -41,15 +42,20 @@ public class CSVDao
     private Configuration configuration;
 
 
-    public CSVDao()
+    public CSVDao(String configurationXML)
     {
         try
         {
             PropertyValueInjector.inject(this);
 
             ConfigurationParser parser = new ConfigurationParser();
+            parser.setConfigurationXML(configurationXML);
 
             configuration = parser.parse();
+        }
+        catch (InjectionException e)
+        {
+            e.printStackTrace();
         }
         catch (IOException e)
         {
@@ -118,7 +124,8 @@ public class CSVDao
 
     public int export(List<Field> fields,
                       OutputStream os,
-                      char delimiter)
+                      char delimiter,
+                      String whereClause)
             throws SQLException, IOException
     {
         int numberOfRows = 0;
@@ -131,8 +138,8 @@ public class CSVDao
             List<String> tableFields = FieldUtils.getTableFields(fields);
 
             final String sql = "SELECT " + listFields(tableFields) +
-                               "  FROM " + getTableName();
-                               // TODO: Add support for WHERE clauses
+                               "  FROM " + getTableName() + (whereClause != null ?
+                               " WHERE " + whereClause.trim() : "");
 
             if (logger.isDebugEnabled())
                 logger.debug(sql);

@@ -30,13 +30,11 @@ public class CSVDataImporterTest
     @Test
     public void testImport() throws Exception
     {
-        System.setProperty("mapping.xml", "target/test-classes/mapping.xml");
-
         CSVDataImporter importer = new CSVDataImporter();
         importer.setCsvFile("target/test-classes/users.csv");
+        importer.setConfigurationXML("target/test-classes/configuration.xml");
+        importer.setDelimiter(',');
         importer.importData();
-
-        System.getProperties().remove("mapping.xml");
     }
 
 }

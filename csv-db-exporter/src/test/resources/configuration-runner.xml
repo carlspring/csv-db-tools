@@ -8,6 +8,9 @@
     </jdbcSettings>
 
     <deleteAllDataFromTableBeforeInserting>true</deleteAllDataFromTableBeforeInserting>
+    <exportWhereClause>
+        <![CDATA[userid<6]]>
+    </exportWhereClause>
 
     <mapping>
         <tableName>users</tableName>

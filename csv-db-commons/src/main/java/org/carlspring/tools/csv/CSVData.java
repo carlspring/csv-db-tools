@@ -1,5 +1,6 @@
 package org.carlspring.tools.csv;
 
+import org.carlspring.ioc.InjectionException;
 import org.carlspring.ioc.PropertyValue;
 import org.carlspring.ioc.PropertyValueInjector;
 
@@ -15,6 +16,10 @@ public class CSVData
     @PropertyValue(key = "csv.file")
     protected String csvFile;
 
+    @PropertyValue(key = "configuration.xml")
+    protected String configurationXML;
+
+    @PropertyValue(key = "delimiter")
     protected char delimiter = ',';
 
 
@@ -24,7 +29,7 @@ public class CSVData
         {
             PropertyValueInjector.inject(this);
         }
-        catch (IOException e)
+        catch (InjectionException e)
         {
             e.printStackTrace();
         }
@@ -53,6 +58,16 @@ public class CSVData
                 e.printStackTrace();
             }
         }
+    }
+
+    public String getConfigurationXML()
+    {
+        return configurationXML;
+    }
+
+    public void setConfigurationXML(String configurationXML)
+    {
+        this.configurationXML = configurationXML;
     }
 
     public char getDelimiter()
