@@ -52,7 +52,7 @@ public abstract class AbstractCSVMojo
     public String configurationXML;
 
     /**
-     * @parameter expression="${delimiter}"
+     * @parameter expression="${delimiter}" default-value=","
      * @required
      */
     public char delimiter;
