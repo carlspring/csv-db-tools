@@ -16,6 +16,8 @@ package org.carlspring.tools.csv.dao;
  * limitations under the License.
  */
 
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.carlspring.ioc.InjectionException;
 import org.carlspring.ioc.PropertyValueInjector;
 import org.carlspring.tools.csv.FieldUtils;
@@ -80,7 +82,7 @@ public class CSVDao
 
             connection = getConnection();
 
-            ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(StringEscapeUtils.escapeSql(sql));
 
             int i = 1;
             for (Field field : configuration.getMapping().getFields())
@@ -199,40 +201,40 @@ public class CSVDao
         // Handle primitives
         if (field.getType().equals("int"))
         {
-            ps.setInt(i, Integer.parseInt(value));
+            ps.setInt(i, StringUtils.isBlank(value) ? 0 : Integer.parseInt(value));
         }
         else if (field.getType().equals("long"))
         {
-            ps.setLong(i, Long.parseLong(value));
+            ps.setLong(i, StringUtils.isBlank(value) ? 0l : Long.parseLong(value));
         }
         else if (field.getType().equals("float"))
         {
-            ps.setFloat(i, Float.parseFloat(value));
+            ps.setFloat(i, StringUtils.isBlank(value) ? 0f : Float.parseFloat(value));
         }
         else if (field.getType().equals("double"))
         {
-            ps.setDouble(i, Double.parseDouble(value));
+            ps.setDouble(i, StringUtils.isBlank(value) ? 0d : Double.parseDouble(value));
         }
         else if (field.getType().equals("boolean"))
         {
-            ps.setBoolean(i, Boolean.parseBoolean(value));
+            ps.setBoolean(i, StringUtils.isBlank(value) && Boolean.parseBoolean(value));
         }
         // Handle objects
         else if (field.getType().equals("java.lang.String"))
         {
-            ps.setString(i, value);
+            ps.setString(i, StringUtils.isBlank(value) ? null : value);
         }
         else if (field.getType().equals("java.sql.Date"))
         {
-            ps.setDate(i, Date.valueOf(value));
+            ps.setDate(i, StringUtils.isBlank(value) ? null : Date.valueOf(value));
         }
         else if (field.getType().equals("java.sql.Timestamp"))
         {
-            ps.setTimestamp(i, Timestamp.valueOf(value));
+            ps.setTimestamp(i, StringUtils.isBlank(value) ? null : Timestamp.valueOf(value));
         }
         else if (field.getType().equals("java.math.BigDecimal"))
         {
-            ps.setBigDecimal(i, new BigDecimal(Long.parseLong(value)));
+            ps.setBigDecimal(i, StringUtils.isBlank(value) ? null : new BigDecimal(Long.parseLong(value)));
         }
     }
 

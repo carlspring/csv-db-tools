@@ -55,6 +55,7 @@ public class CSVDataImporter extends CSVData
         BufferedReader br = null;
         CSVFileReader csvFileReader = null;
 
+	    boolean lineReset = false;
         try
         {
             is = new FileInputStream(file);
@@ -74,30 +75,43 @@ public class CSVDataImporter extends CSVData
                 dao.deleteAll();
             }
 
-            logger.info("Pumping " + csvFileReader.getNumberOfLines() + " records to the database...");
+	        final int numberOfLines = csvFileReader.getNumberOfLines();
+	        logger.info("Pumping " + numberOfLines + " records to the database...");
 
             final long startTime = System.currentTimeMillis();
 
             List<String> row;
+	        int importedRows = 0;
             while ((row = csvFileReader.readFields()) != null)
             {
                 dao.insert(fields, row);
+	            importedRows++;
+	            System.out.print("\rImporting... " + importedRows + "/" + numberOfLines);
             }
 
             final long endTime = System.currentTimeMillis();
+	        System.out.println("");
+	        lineReset = true;
 
             logger.info("The import took " + (endTime - startTime) + " ms.");
         }
         catch (FileNotFoundException fnfExc)
         {
+	        System.out.println("");
+	        lineReset = true;
             fnfExc.printStackTrace();
         }
         catch (IOException e)
         {
+	        System.out.println("");
+	        lineReset = true;
             e.printStackTrace();
         }
         finally
         {
+	        if (!lineReset)
+		        System.out.println("");
+
             close(csvFileReader);
             close(br);
             close(is);
