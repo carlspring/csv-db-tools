@@ -25,19 +25,19 @@ public class Field
 {
 
     @XStreamAsAttribute
-    String csvColumnName;
+    private String csvColumnName;
 
     @XStreamAsAttribute
-    String columnName;
+    private String columnName;
 
     @XStreamAsAttribute
-    String type;
+    private String type;
 
     @XStreamAsAttribute
-    String useValue;
+    private String useValue;
 
     @XStreamAsAttribute
-    String includeExplicitly;
+    private String includeExplicitly;
 
 
     public Field()

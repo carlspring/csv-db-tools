@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class CSVDataImportRunner
 {
 
-    CSVDataImporter importer = new CSVDataImporter();
+    private CSVDataImporter importer = new CSVDataImporter();
 
 
     public CSVDataImportRunner()

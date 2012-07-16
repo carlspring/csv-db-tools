@@ -20,6 +20,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -71,13 +72,13 @@ public class CSVFileWriter
      *
      * @param fileName The name of the CSV file to be opened for reading
      * @param sep            The field separator to be used; overwrites the default one
-     * @param qual           The text qualifier to be used; overwrites the default one
+     * @param qualifier           The text qualifier to be used; overwrites the default one
      * @throws IOException If an error occurs while creating the file
      */
-    public CSVFileWriter(String fileName, char sep, char qual)
+    public CSVFileWriter(String fileName, char sep, char qualifier)
             throws IOException
     {
-        super(sep, qual);
+        super(sep, qualifier);
         out = new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
         this.fileName = fileName;
     }
@@ -99,7 +100,7 @@ public class CSVFileWriter
      *
      * @param fields The vector of strings containing the fields
      */
-    public void writeFields(Vector<String> fields)
+    public void writeFields(List<String> fields)
     {
         int n = fields.size();
         for (int i = 0; i < n; i++)
