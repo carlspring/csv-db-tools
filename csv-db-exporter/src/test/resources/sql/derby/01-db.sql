@@ -1,4 +1,5 @@
 
+DROP TABLE USERS;
 
 CREATE TABLE users (
        USERID              INTEGER           NOT NULL GENERATED ALWAYS AS IDENTITY (start with 1, increment by 1),
