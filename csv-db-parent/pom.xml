@@ -140,7 +140,7 @@
                                 <goal>execute</goal>
                             </goals>
                             <configuration>
-                                <onError>abort</onError>
+                                <onError>continue</onError>
                                 <autocommit>true</autocommit>
                                 <srcFiles>
                                     <srcFile>${basedir}/src/test/resources/sql/derby/01-db.sql</srcFile>

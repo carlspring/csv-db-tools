@@ -1,4 +1,3 @@
-
 DROP TABLE USERS;
 
 CREATE TABLE users (
